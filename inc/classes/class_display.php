@@ -285,7 +285,7 @@ class display {
     ($not_changeable)? $not_changeable = ' readonly="readonly"' : $not_changeable = '';
     if ($maxlength) $maxlength = ' maxlength="'. $maxlength .'"';
     if ($size == '') $size = '30';
-    $value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+    //$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 
     $value = '<input type="text" id="'. $name .'" name="'. $name .'" class="form'. $optional .'" size="'. $size .'"'. $not_changeable .' value="'. $value .'"'. $maxlength .' />'. $errortext;
     $key = '<label for="'. $name .'">'. $key .'</label>';

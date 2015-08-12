@@ -2,7 +2,7 @@
 
 [lansuite]
 version				= "SVN"
-default_design			= "simple"
+default_design			= "osX"
 chmod_dir			= "777"
 chmod_file			= "666"
 debugmode			= "0"
@@ -15,6 +15,6 @@ database			= "lansuite"
 prefix				= "ls_"
 
 [environment]
-configured			= "0"
+configured			= "1"
 
 ;*/ ?>
