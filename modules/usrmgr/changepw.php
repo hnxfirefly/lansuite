@@ -1,9 +1,15 @@
 <?php
+require_once("inc/classes/class_scram.php");
 
 function CheckOldPW($old_password) {
   global $db, $auth, $lang;
 
 	$get_dbpwd = $db->qry_first("SELECT password FROM %prefix%user WHERE userid = %int%", $auth["userid"]);
+	if (array_key_exists('pwmethod',$auth) && $auth["pwmethod"] === "scram-sha1" ) {
+		$scram = calc_scram($old_password,$auth["salt"],$auth['iterationcount']);
+                if ($get_dbpwd["password"] === $scram['stored_key']) return false;
+        }
+	
 	if ($get_dbpwd["password"] != md5($old_password)) return t('Passwort inkorrekt');
 
   return false;

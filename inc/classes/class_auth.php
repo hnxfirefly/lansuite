@@ -1,6 +1,7 @@
 <?php
 
 require_once("inc/classes/class.crypt.php");
+require_once("inc/classes/class_scram.php");
 
 
 /**
@@ -155,6 +156,13 @@ class auth {
                WHERE userid = %int% AND (UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(time) < 60)
                GROUP BY userid', $user['userid']);
 
+            // Set Loginmethod to SCRAM if enabled
+            if (array_key_exists('pwmethod',$user) && $user["pwmethod"] === "scram-sha1" && $user['password']!= md5($password)) {
+$func->information(t('Using scram'), '', 1);
+		$scram = calc_scram($password,$user["salt"],$user['iterationcount']);
+                $tmp_login_pass = $scram['stored_key'];
+            }
+
             // Too many login trys?
             if ($row['anz'] >= 5) {
                 $func->information(t('Du hast in der letzten Minute bereits 5 mal dein Passwort falsch eingegeben. Bitte warte einen Moment, bevor du es erneut versuchen darfst'), '', 1);
@@ -197,7 +205,14 @@ class auth {
                 $func->log_event(t('Login für %1 fehlgeschlagen (Account ausgecheckt).', $tmp_login_email), "2", "Authentifikation");
             // Everything fine!
             } else {
-
+		
+		//Update PW Hash
+		if (array_key_exists('pwmethod',$user) && ($user["pwmethod"] != "scram-sha1" or $user['password']=== md5($password))) {
+                    $func->information(t('Dein PW wurde auf SCRAM aktualisiert'),'',1);
+		    $scram = generate_scram($password,4096,'sha1');
+                    $db->qry('UPDATE %prefix%user SET password = %string%, pwmethod= %string%, serverkey=%string%, salt=%string%, iterationcount=%int% WHERE userid = %int%', $scram['stored_key'],$scram['pwhash'],$scram['server_key'],$scram['salt'],$scram['rounds'],$user['userid']);
+                }		
+		
                 // Set Logonstats
                 $db->qry('UPDATE %prefix%user SET logins = logins + 1, changedate = changedate, lastlogin = NOW() WHERE userid = %int%', $user['userid']);
                 

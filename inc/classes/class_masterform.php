@@ -599,7 +599,7 @@ class masterform {
             // Convert Passwords
             if ($field['type'] == IS_NEW_PASSWORD and $_POST[$field['name']] != '') {
               $_POST[$field['name'] .'_original'] = $_POST[$field['name']];
-              $_POST[$field['name']] = md5($_POST[$field['name']]);
+              $_POST[$field['name']] = md5($_POST[$field['name']]);	   
             }
           }
 

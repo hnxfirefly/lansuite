@@ -46,7 +46,35 @@
             </field>
             <field>
                 <name>password</name>
-                <type>char(32)</type>
+                <type>varchar(64)</type>
+                <null></null>
+                <default></default>
+                <extra></extra>
+            </field>
+            <field>
+                <name>pwmethod</name>
+                <type>varchar(64)</type>
+                <null></null>
+                <default></default>
+                <extra></extra>
+            </field>
+            <field>
+                <name>serverkey</name>
+                <type>varchar(64)</type>
+                <null></null>
+                <default></default>
+                <extra></extra>
+            </field>
+            <field>
+                <name>salt</name>
+                <type>varchar(64)</type>
+                <null></null>
+                <default></default>
+                <extra></extra>
+            </field>
+            <field>
+                <name>iterationcount</name>
+                <type>int(11)</type>
                 <null></null>
                 <default></default>
                 <extra></extra>
