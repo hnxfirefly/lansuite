@@ -720,4 +720,27 @@ global $cfg, $db;
   }
   return false;
 }
+
+function CheckValidUser($Username){
+global $cfg;
+
+  if ($Username == '') return t('Bitte gib einen JiD conformen Username  ein');
+  else {
+    if($Username == 'asdf') return t('Username asdf ist testing');
+    if (!preg_match("/^[\x{20}-\x{21}\x{23}-\x{25}\x{28}-\x{2E}\x{30}-\x{39}\x{3B}\x{3D}\x{3F}\x{41}-\x{7E}\x{80}-\x{FFFD}\x{10000}-\x{10FFFF}]+$/u", $Username)) return t('Der Username ist Nicht JID Node conform');
+    #x22 (")
+    #x26 (&)
+    #x27 (')
+    #x2F (/)
+    #x3A (:)
+    #x3C (<)
+    #x3E (>)
+    #x40 (@)
+    #x7F (del)
+    #xFFFE (BOM)
+    #xFFFF (BOM)
+
+  }
+  return false;
+}
 ?>
