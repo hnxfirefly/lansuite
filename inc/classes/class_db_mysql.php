@@ -51,14 +51,17 @@ class db {
 
   #### Connection related ####
 
-  function set_charset(string $charset = null) {
+  function set_charset($charset = null) {
       global $config;
       
       if (!$charset) $charset = $config['database']['charset']; 
       if (!empty($charset)){
-          $this->link_id->set_charset($charset);
+	  if (!mysqli_set_charset($this->link_id, $charset)) {
+ 	   printf("Error loading character set utf8: %s\n", mysqli_error($this->link_id));
+  	  exit();
+	}
       } else {
-          $this->link_id->set_charset('latin1');
+          $this->link_id->set_charset('utf8');
       }
   }
   
@@ -101,7 +104,9 @@ class db {
     }
 
     // Set encoding based on config file
+
     $this->set_charset($charset);
+  
  
     $this->success = true;
     $this->connectfailure = 0;
