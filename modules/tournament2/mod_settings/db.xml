@@ -169,7 +169,7 @@
 			</field>
 			<field>
 				<name>name</name>
-				<type>varchar(25)</type>
+				<type>varchar(20)</type>
 				<null></null>
 				<key></key>
 				<default></default>
