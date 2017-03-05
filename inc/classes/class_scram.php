@@ -1,6 +1,6 @@
 <?php
 
-	function calc_salted_pw($password,$salt,$algo,$rounds){
+	function calc_salted_pw($password,$saltbase,$algo,$rounds){
 	
 		$salt=base64_decode($saltbase);
 
