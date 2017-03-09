@@ -310,6 +310,9 @@
       // For compaibility with old LS code
       $_SESSION['auth']['design'] = $auth['design'];
 
+      //Add auth data to session for SSO
+      $_SESSION['auth'] = $auth;
+
       // Assign
       $smarty->assign('default_design', $auth['design']);
     }
