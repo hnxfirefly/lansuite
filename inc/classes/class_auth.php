@@ -158,7 +158,6 @@ class auth {
 
             // Set Loginmethod to SCRAM if enabled
             if (array_key_exists('pwmethod',$user) && $user["pwmethod"] === "scram-sha1" && $user['password']!= md5($password)) {
-$func->information(t('Using scram'), '', 1);
 		$scram = calc_scram($password,$user["salt"],$user['iterationcount']);
                 $tmp_login_pass = $scram['stored_key'];
             }
