@@ -6,7 +6,7 @@ $mf = new masterform();
 
 $mf->AddField(t('Name'), 'name');
 $mf->AddField(t('Statement'), 'function');
-$mf->AddField(t('Aktiv'), 'active');
+$mf->AddField(t('Aktiv'), 'active','','',1);
 $mf->AddField(t('Type'), 'type');
 $mf->AddField(t('Ausführen täglich, um'), 'runat');
 
