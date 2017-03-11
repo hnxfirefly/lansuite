@@ -135,7 +135,7 @@ class auth {
         elseif ($tmp_login_pass == "") $func->information(t('Bitte gib dein Kennwort ein.'), '', 1);
         else {
             $is_email = strstr($tmp_login_email, '@');
-            if(!$is_email) $is_email = 0; else $is_email = 1;
+            $is_userid = ctype_digit($tmp_login_email);
 
             // Search in cookie table for id + pw
             $cookierow = $db->qry_first('SELECT userid from %prefix%cookie WHERE cookieid = %int% AND password = %string%', $tmp_login_email, $tmp_login_pass);
@@ -143,9 +143,15 @@ class auth {
               $cookierow['userid']);
  
             // Not found in cookie table, then check for manual login (either with email, oder userid)
-            else $user = $db->qry_first('SELECT *, 1 AS found, 1 AS user_login FROM %prefix%user
-              WHERE ((userid = %int% AND 0 = %int%) OR LOWER(email) = %string%)',
-              $tmp_login_email, $is_email, $tmp_login_email);
+            else 
+            {
+				if($is_email) $user = $db->qry_first('SELECT *, 1 AS found, 1 AS user_login FROM %prefix%user
+              		WHERE (LOWER(email) = %string%)',$tmp_login_email);
+				else if($is_userid) $user = $db->qry_first('SELECT *, 1 AS found, 1 AS user_login FROM %prefix%user
+              		WHERE (userid = %int%)',$tmp_login_email);
+				else $user = $db->qry_first('SELECT *, 1 AS found, 1 AS user_login FROM %prefix%user
+              		WHERE (LOWER(username) = %string%)', strtolower($tmp_login_email));
+            }
 
             // Needs to be a seperate query; WHERE (p.party_id IS NULL OR p.party_id=%int%) does not work when 2 parties exist
             if ($func->isModActive('party')) $party_query = $db->qry_first('SELECT p.checkin AS checkin, p.checkout AS checkout FROM %prefix%party_user AS p WHERE p.party_id=%int% AND user_id=%int%', $party->party_id, $user['userid']);
