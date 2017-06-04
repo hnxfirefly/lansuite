@@ -27,7 +27,7 @@ else $username = $auth['username'];
 
 $userid_formated = sprintf( "%04d", $auth['userid']);
 
-$box->DotRow(t('Benutzer').": [<i>#$userid_formated</i>]". ' <a href="index.php?mod=auth&action=logout" class="icon_delete" title="'. t('Ausloggen') .'"></a>');
+$box->DotRow(t('Benutzer').": [<i>#$userid_formated</i>]". ' <a id="logout" href="index.php?mod=auth&action=logout" class="icon_delete" title="'. t('Ausloggen') .'"></a>');
 $box->EngangedRow($dsp->FetchUserIcon($auth['userid'], $username));
 #$box->EngangedRow("");
 
