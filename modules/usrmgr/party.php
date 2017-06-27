@@ -3,9 +3,6 @@
 include_once("modules/usrmgr/class_usrmgr.php");
 $usrmgr = new UsrMgr();
 
-include_once("modules/seating/class_seat.php");
-$seat2 = new seat2();
-
 function PartyMail()
 {
     global $usrmgr, $func, $mail, $auth;
@@ -29,7 +26,7 @@ if ($party->count == 0) {
     if ($_GET['user_id'] == $auth['userid'] or $auth['type'] >= 2) {
         function ChangeAllowed($id)
         {
-            global $db, $row, $lang, $func, $auth, $seat2;
+            global $db, $row, $lang, $func, $auth;
 
       // Do not allow changes, if party is over
             if ($row['enddate'] < time()) {
@@ -69,11 +66,6 @@ if ($party->count == 0) {
             }
 
             $row2 = $db->qry_first("SELECT paid FROM %prefix%party_user WHERE party_id = %int% AND user_id = %int%", $_GET['party_id'], $id);
-
-            // Free seats if the user hasn't paid already
-            if ($row2['paid'] == 0) {
-                $seat2->FreeSeatAllMarkedByUser($id);
-            }
 
             return false;
         }
