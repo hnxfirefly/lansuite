@@ -1,4 +1,6 @@
 <?php
+
+require __DIR__ . '/vendor/autoload.php';
 // Set error_reporting properly
 // Right now we depend on it. This will change in future.
 error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT);

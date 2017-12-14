@@ -1,6 +1,5 @@
 <?php
 
-require_once("inc/classes/class.crypt.php");
 require_once("inc/classes/class_pwhash.php");
 
 /**
@@ -102,26 +101,18 @@ class auth
     {
         global $db, $func, $cfg, $party;
 
-        $email = strtolower(htmlspecialchars(trim($raw_email)));
+        $email = "";       
 
-        if ($email == "") {
-            $func->information(t('Bitte gib deine E-Mail-Adresse oder deine Lansuite-ID ein.'), '', 1);
-        } elseif ($password == "") {
-            $func->information(t('Bitte gib dein Kennwort ein.'), '', 1);
-        } else {
+        if ($raw_email != "") $email = strtolower(htmlspecialchars(trim($raw_email)));
+
+        if     ($email == "") $func->information(t('Bitte gib deine E-Mail-Adresse oder deine Lansuite-ID ein.'), '', 1);
+        elseif ($password == "") $func->information(t('Bitte gib dein Kennwort ein.'), '', 1);
+        else {
             $is_email = strstr($email, '@');
-            if (!$is_email) {
-                $is_email = 0;
-            } else {
-                $is_email = 1;
-            }
-
-            $user = $db->qry_first(
-                'SELECT *, 1 AS found, 1 AS user_login FROM %prefix%user WHERE ((userid = %int% AND 0 = %int%) OR LOWER(email) = %string%)',
-                $email,
-                $is_email,
-                $email
-            );
+            $is_userid = ctype_digit($email);
+	    if($is_email) $user = $db->qry_first('SELECT *, 1 AS found, 1 AS user_login FROM %prefix%user WHERE (LOWER(email) = %string%)',$email);
+	    else if($is_userid) $user = $db->qry_first('SELECT *, 1 AS found, 1 AS user_login FROM %prefix%user WHERE (userid = %int%)',$email);
+            else $user = $db->qry_first('SELECT *, 1 AS found, 1 AS user_login FROM %prefix%user WHERE (LOWER(username) = %string%)', strtolower($email));
 
             // Needs to be a seperate query; WHERE (p.party_id IS NULL OR p.party_id=%int%) does not work when 2 parties exist
             if ($func->isModActive('party')) {
