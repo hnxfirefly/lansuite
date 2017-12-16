@@ -611,11 +611,11 @@ class display
             $hour = date("H");
             $min = round(date("i") / 5) * 5;
         }
-        $smarty->assign('day', $day);
-        $smarty->assign('month', $month);
-        $smarty->assign('year', $year);
-        $smarty->assign('hour', $hour);
-        $smarty->assign('min', $min);
+        $smarty->assign('day', ltrim($day, '0'));
+        $smarty->assign('month', ltrim($month, '0'));
+        $smarty->assign('year', ltrim($year, '0'));
+        $smarty->assign('hour', ltrim($hour,'0'));
+        $smarty->assign('min', ltrim($min,'0'));
 
         $arr = array();
         for ($x = 0; $x <= 55; $x+=5) {
