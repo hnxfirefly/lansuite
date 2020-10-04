@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+	<title>{$MainTitle}</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	{$main_header_metatags}
+	<meta name="robots" content="index, follow" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="expires" content="900" />  
+	{$main_header_sitereload}
+	{$main_header_cssfiles}
+	<link rel="stylesheet" type="text/css" href="design/{$Design}/style.css" />
+	{$main_header_csscode} 
+	{$main_header_jsfiles}
+	<script type="text/javascript" src="scripts.js"></script>
+	{$main_header_jscode}
+	<!--<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />-->
+    <link rel="shortcut icon" type="image/jpeg" href="hnx.jpg" />
+        <meta http-equiv="refresh" content="600" />
+	<link rel="alternate" type="application/rss+xml" title="RDF-Datei" href="ext_inc/newsfeed/news.xml" />
+	<meta name="author" content="Verein Haag-networX" />
+	<meta name="keywords" content="Haag-networX,hnx,Lanparty,LAN Österreich,Party,Stadt Haag" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="description" content="Haag-networX LAN-Party" />
+	
+
+	<!--<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">-->
+	<!--<script src="https://cdn.conversejs.org/dist/converse.min.js"></script>-->
+<link rel="stylesheet" type="text/css" media="screen" href="/converse/css/converse.css">
+<!--<script src="/converse/3rdparty/libsignal-protocol.js"></script>
+<script src="/converse/dist/converse.js"></script>
+-->   
+   
+
+<script type="text/javascript">
+
+
+function keep_alive() {
+    $.ajax({  url: "./index.php?design=ajax&mod=auth&action=keep" });
+  }
+setInterval(keep_alive,60000); 
+</script>
+
+</head>
+
+<body onload="BodyOnload(0)" {$MainJS}>
+<span id="LSloading" class="loading"></span>
+{if $MainContentStyleID != 'ContentFullscreen'}
+
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" >
+<tr>
+    <td>
+		<div id="Logo">
+			<img title="Lansuite" alt="Logo" src="design/hnx/images/HnX_Wartox_Logo.png" border="0" complete="complete"/>
+		</div>
+    </td>
+    <td >
+        <div>
+        {$MainBanner}
+		</div>
+    </td>
+</tr>
+</table>
+<div id="DateLogout" style="width: 400px;">{$smarty.now|date_format:"%d.%m.%Y"} | {$MainLogout}</div>
+
+<div id="BoxesLeft">{$MainLeftBox}</div>
+{/if}
+
+<div id="{$MainContentStyleID}">
+	<div id="ContentOnly">
+		{$MainFrameworkmessages}
+		{$MainContent}
+		<div id="clearboth"></div>
+  	</div>
+	
+	<div id="BelowContent">
+		
+		<div id="Footer">{$Footer}</div>
+  		{$MainDebug}
+  	</div>
+	
+  	
+</div>
+{if $MainContentStyleID != 'ContentFullscreen'}
+<div id="BoxesRight">{$MainRightBox}</div>
+{/if}
+<img src="https://www.haag-networx.at/ls/design/hnx/images/transparentpixel.png"/>
+</body>
+<script>
+    converse.initialize({
+        bosh_service_url: 'https://www.haag-networx.at/http-bind/', // Please use this connection manager only for testing purposes
+        show_controlbox_by_default: false,
+	authentication: 'login',
+	debug: true,
+	hide_offline_users: true,
+        connection_options: {
+                'mechanisms': [
+                    converse.env.Strophe.SASLSHA1
+                ]
+        }
+    });
+</script>
+</html>
