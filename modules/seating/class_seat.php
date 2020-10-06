@@ -29,12 +29,9 @@ class seat2
         if (!$userid) {
             return '';
         } else {
-//            $row = $db->qry_first("SELECT b.blockid, b.name, b.orientation, s.col, s.row FROM %prefix%seat_block AS b
-//      LEFT JOIN %prefix%seat_seats AS s ON b.blockid = s.blockid
-//      WHERE b.party_id = %int% AND s.userid = %int% AND s.status = %string%", $party->party_id, $userid, $seat_status);
             $row = $db->qry_first("SELECT b.blockid, b.name, b.orientation, s.col, s.row FROM %prefix%seat_block AS b
       LEFT JOIN %prefix%seat_seats AS s ON b.blockid = s.blockid
-      WHERE b.party_id = %int% AND s.userid = %int% AND (s.status = 2 OR s.status =3)", $party->party_id, $userid, $seat_status);
+      WHERE b.party_id = %int% AND s.userid = %int% AND s.status = %string%", $party->party_id, $userid, $seat_status);
         }
   
         if (!$row['blockid']) {
@@ -57,12 +54,9 @@ class seat2
             $seat_status = 3;
         };
 
-//        $row = $db->qry_first("SELECT s.row, s.col, b.blockid, b.name FROM %prefix%seat_seats AS s
-//   LEFT JOIN %prefix%seat_block AS b ON s.blockid = b.blockid
-//   WHERE s.userid=%int% AND s.status = %string% AND b.party_id = %int%", $userid, $seat_status, $party->party_id);
         $row = $db->qry_first("SELECT s.row, s.col, b.blockid, b.name FROM %prefix%seat_seats AS s
    LEFT JOIN %prefix%seat_block AS b ON s.blockid = b.blockid
-   WHERE s.userid=%int% AND (s.status = 2 OR s.status = 3) AND b.party_id = %int%", $userid, $party->party_id);
+   WHERE s.userid=%int% AND s.status = %string% AND b.party_id = %int%", $userid, $seat_status, $party->party_id);
 
         if ($row['blockid']) {
             return $this->CoordinateToBlockAndName($row['col'] + 1, $row['row'], $row['blockid'], $MaxBlockLength, $LinkIt, $userid);
@@ -83,12 +77,9 @@ class seat2
             $seat_status = 3;
         };
 
-//        $row = $db->qry_first("SELECT s.row, s.col, b.blockid, b.name FROM %prefix%seat_seats AS s
-//   		LEFT JOIN %prefix%seat_block AS b ON s.blockid = b.blockid
-//   		WHERE s.userid=%int% AND s.status = %string% AND b.party_id = %int%", $userid, $seat_status, $party->party_id);
         $row = $db->qry_first("SELECT s.row, s.col, b.blockid, b.name FROM %prefix%seat_seats AS s
    		LEFT JOIN %prefix%seat_block AS b ON s.blockid = b.blockid
-   		WHERE s.userid=%int% AND (s.status = 2 OR s.status = 3) AND b.party_id = %int%", $userid, $party->party_id);
+   		WHERE s.userid=%int% AND s.status = %string% AND b.party_id = %int%", $userid, $seat_status, $party->party_id);
     
         if ($row['blockid']) {
             $arr = array();
