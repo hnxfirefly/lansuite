@@ -61,9 +61,9 @@ class auth
         // Do check first, for SELECT is faster than DELETE
         $oneHour = 60 * 60;
         $thirtyDays = 60 * 60 * 24 * 30;
-        $row = $db->qry_first('SELECT 1 AS found FROM %prefix%stats_auth WHERE lasthit < %int%', ceil((time() - $oneHour) / $oneHour) * $oneHour);
+        $row = $db->qry_first('SELECT 1 AS found FROM %prefix%stats_auth WHERE lasthit < %int% and lastajaxhit < %int%', ceil((time() - $oneHour) / $oneHour) * $oneHour, ceil((time() - $oneHour) / $oneHour) * $oneHour);
         if ($row['found']) {
-            $row = $db->qry_first('DELETE FROM %prefix%stats_auth WHERE lasthit < %int%', ceil((time() - $oneHour) / $oneHour) * $oneHour);
+            $row = $db->qry_first('DELETE FROM %prefix%stats_auth WHERE lasthit < %int% and lastajaxhit < %int%', (time() - $oneHour) , (time() - $oneHour));
             $row = $db->qry_first('OPTIMIZE TABLE %prefix%stats_auth');
         }
     }
@@ -179,16 +179,16 @@ class auth
                 }
                 
                 // Set authdata
-                $db->qry(
-                    'REPLACE INTO %prefix%stats_auth
-                  SET sessid = %string%, userid = %int%, login = \'1\', ip = %string%, logtime = %string%, logintime = %string%, lasthit = %string%',
-                    $this->auth["sessid"],
-                    $user["userid"],
-                    $this->auth["ip"],
-                    $this->timestamp,
-                    $this->timestamp,
-                    $this->timestamp
-                );
+		$db->qry(
+		'REPLACE INTO %prefix%stats_auth
+		SET sessid = %string%, userid = %int%, login = \'1\', ip = %string%, logtime = %string%, logintime = %string%, lasthit = %string%',
+		$this->auth["sessid"],
+		$user["userid"],
+		$this->auth["ip"],
+		$this->timestamp,
+		$this->timestamp,
+		$this->timestamp
+		);
 
                 $this->loadAuthBySID();
                 $this->auth['userid'] = $user['userid'];
