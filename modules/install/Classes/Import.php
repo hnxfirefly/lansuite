@@ -185,7 +185,7 @@ class Import
                                 } else {
                                     $default = '';
                                 }
-                            } elseif ($type == 'text' or $type == 'tinytext' or $type == 'mediumtext' or $type == 'longtext' or $type == 'blob') {
+                            } elseif ($type == 'tinytext' or $type == 'mediumtext' or $type == 'longtext' or $type == 'blob') {
                                 $default = '';
                             } else {
                                 $default = "default '$default_xml'";

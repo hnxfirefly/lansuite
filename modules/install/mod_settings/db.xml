@@ -1117,7 +1117,7 @@
             </field>
             <field>
                 <name>lasthiturl</name>
-                <type>varchar(100)</type>
+                <type>text</type>
                 <null></null>
                 <key></key>
                 <default></default>
