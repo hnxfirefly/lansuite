@@ -84,7 +84,7 @@ class GuestList
         $mail = new \LanSuite\Module\Mail\Mail();
 
         $Messages = array('success' => '', 'error' => '');
-        $db->qry('UPDATE %prefix%party_user SET paid = 0, paiddate = "" WHERE user_id = %int% AND party_id = %int% LIMIT 1', $userid, $partyid);
+        $db->qry('UPDATE %prefix%party_user SET paid = 0, paiddate = "0000-00-00 00:00:00" WHERE user_id = %int% AND party_id = %int% LIMIT 1', $userid, $partyid);
 
         $row = $db->qry_first('SELECT username, email from %prefix%user WHERE userid = %int%', $userid);
         $row2 = $db->qry_first('SELECT name FROM %prefix%partys WHERE party_id = %int%', $partyid);
