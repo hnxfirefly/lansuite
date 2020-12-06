@@ -185,7 +185,7 @@ class Import
                                 } else {
                                     $default = '';
                                 }
-                            } elseif ($type == 'tinytext' or $type == 'mediumtext' or $type == 'longtext' or $type == 'blob') {
+                            } elseif ($type == 'blob') {
                                 $default = '';
                             } else {
                                 $default = "default '$default_xml'";
@@ -233,7 +233,9 @@ class Import
                                             // Handle structure changes in general
                                         } elseif ($db_field["Type"] != $type
                                         or (!($db_field["Null"] == $null or ($db_field["Null"] == 'YES' and $null == 'NULL')))
-                                        or ($db_field["Default"] != $default_xml and !($db_field["Default"] == 0 and $default_xml == '') and !($db_field["Default"] == '' and $default_xml === 0))
+                                        or (($db_field["Default"] != $default_xml and !($db_field["Default"] == 0 and $default_xml == '') and !($db_field["Default"] == '' and $default_xml === 0))
+                                                // for some types like varbinary, even if a default is set to '', DESCRIBE table; will return an empty string instead of "''"
+                                                or (strpos($type, 'text') !== false and $db_field["Default"] === "" and $default !== ''))
                                         or $db_field["Extra"] != $extra) {
                                             $db->qry("ALTER TABLE %prefix%%plain% CHANGE %plain% %plain% %plain% %plain% %plain% %plain%", $table_name, $name, $name, $type, $null, $default, $extra);
                                         }
