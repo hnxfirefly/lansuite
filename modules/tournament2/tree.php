@@ -45,7 +45,7 @@ if (!$_GET['tournamentid']) {
                 if ($tournament['mode'] == "liga") {
                     $height = $team_anz * 20 + 30;
                 } else {
-                    $height = (($team_anz/2) * 50) + 60;
+                    $height = (($team_anz/2) * 50) + 60 + 20; // scrollbar approximately: 20px needed due to scrollbar showing if width is not sufficent
                 }
   
                 if (($tournament["mode"] == "groups") && ($_POST['group'] == '')) {
